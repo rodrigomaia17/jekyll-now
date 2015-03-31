@@ -3,7 +3,7 @@ layout: post
 title: WILT#02 - Como adicionar JS-Beautify em sua aplicação Node.js
 ---
 
-Após muito tempo participando de um projeto open-source bem legal ( [Tablero](https://github.com/twtablero/tablero) ) , resolvi colocar enforçar (essa palavra existe?) alguns padrões de código importantes, para que não ficasse igual a uns outros projetos open-source por aí. 
+Após muito tempo participando de um projeto open-source bem legal ( [Tablero](https://github.com/twtablero/tablero) ) , resolvi enforçar (essa palavra existe?) alguns padrões de código importantes, para que não ficasse igual a uns outros projetos open-source por aí. 
 
 Com isso, resolvi usar outra coisa além do sempre útil [jsHint](http://jshint.com/). Procurei, procurei, e deste então tenho o meu novo melhor amigo: o [js-beautify](https://github.com/beautify-web/js-beautify) .
 
@@ -20,7 +20,7 @@ Para isso, tive de seguir alguns passos simples:
   {% highlight js %}
     ...
     "scripts":{ 
-      pretest": "npm run beautify && npm run jshint",
+      "pretest": "npm run beautify && npm run jshint",
       "hint": "./node_modules/jshint/bin/jshint .",
       "beautify": "npm run beautify:js && npm run beautify:html",
       "beautify:js": "git ls-files '**/*.js' | grep -vf .jshintignore | xargs ./node_modules/js-beautify/js/bin/js-beautify.js -s 2 -r -j --good-stuff",
