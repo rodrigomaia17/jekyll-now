@@ -39,7 +39,7 @@ E por hoje, isso é só.
 
 ##### Conselho do dia
 
-> Nunca pesquise no google qualquer sintoma que esteja sentindo, será sempre cãncer.
+> Nunca pesquise no google qualquer sintoma que esteja sentindo, será sempre câncer.
 
 ##### GIF do dia
 
