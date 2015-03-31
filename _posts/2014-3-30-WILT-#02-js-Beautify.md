@@ -17,7 +17,7 @@ Para isso, tive de seguir alguns passos simples:
   {% endhighlight %}
   
   - Adicionar uma npm task no package.json chamando o js-beautify. Eu resolvi separar por destino de arquivos, mas mais simples também funciona.
-  {% hightlight js %}
+  {% highlight js %}
     ...
     "scripts":{ 
       pretest": "npm run beautify && npm run jshint",
