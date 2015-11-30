@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Usando agile na escrita de livros - Inception
+title: Agile na escrita de livros - Inception
 ---
 
 _Experimentando práticas ágeis em um contexto solitário e não relativo à escrita de software._

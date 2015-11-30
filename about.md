@@ -1,9 +1,9 @@
 ---
 layout: page
-title: About Me
+title: Sobre Mim
 permalink: /about/
 ---
 
-A Developer consultant who values more techniques than languages, always excited to create better solutions.
+Um desenvolvedor que valoriza mais técnicas que linguagens, sempre motivado a entender e propagar o real valor que a tecnologia pode criar. 
 
-*Come talk to me!*
+*Fale comigo!*
