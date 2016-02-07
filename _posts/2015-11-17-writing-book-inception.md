@@ -5,7 +5,7 @@ title: Agile na escrita de livros - Inception
 
 _Experimentando práticas ágeis em um contexto solitário e não relativo à escrita de software._
 
-##Motivação
+## Motivação
 
 Estou escrevendo meu primeiro livro e decidi usar algumas técnicas ágeis para essa nova aventura. Uma que eu valorizo muito é a Inception. É vital o time todo ter conhecimento do escopo e ser bastante alinhado com o que vai ser feito no futuro.Rodar uma inception é uma boa forma de atacar esse objetivo.
 
@@ -16,7 +16,7 @@ Mas e quando o time é só você? E quando você precisa que um produto tome for
 
 # Práticas
 
-###O Elevator Pitch
+### O Elevator Pitch
 
 
 **A Prática:** A primeira coisa que eu quis fazer foi o Elevator Pitch. Consiste em tentar definir rapidamente o seu produto e o que o diferencia dos demais. Um exercício para colocar limites no seu escopo.
@@ -56,7 +56,7 @@ Mas e quando o time é só você? E quando você precisa que um produto tome for
 
 ---
 
-#Próximos Passos
+# Próximos Passos
 
 Acredito que essas duas práticas são bastantes úteis nesse momento de criação do conceito do livro. Pensei em definir _personas_ também, e aí talvez eu complemente esse texto com essa prática. Em seguida devo escrever mais sobre a abordagem, e experimentar aqui algum dos exemplos que quero colocar no livro. 
 
