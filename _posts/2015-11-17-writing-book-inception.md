@@ -1,9 +1,8 @@
 ---
 layout: post
 title: Agile na escrita de livros - Inception
+description: "Experimentando práticas ágeis em um contexto solitário e não relativo à escrita de software."
 ---
-
-_Experimentando práticas ágeis em um contexto solitário e não relativo à escrita de software._
 
 ## Motivação
 
