@@ -1,6 +1,6 @@
 # Build settings
 permalink   : /blog/:year/:title/
-markdown    : kramdown
+markdown    : redcarpet
 #highlighter : rouge
 
 gems:
