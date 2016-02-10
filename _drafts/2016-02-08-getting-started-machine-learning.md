@@ -27,7 +27,7 @@ Crie uma pasta para nosso projeto, e nela copie os arquivos que voce baixou do s
 
 Abra o console na pasta do seu projeto e inicie o interpretador do python:
 
-```zsh
+```python
 ~/projects/kaggle-titanic  ᐅ python3
 Python 3.5.0 |Anaconda 2.4.0 (x86_64)| (default, Oct 20 2015, 14:39:26)
 [GCC 4.2.1 (Apple Inc. build 5577)] on darwin
@@ -47,13 +47,13 @@ Primeiro vamos carregar o arquivo train.csv. Para isso usaremos uma lib muito bo
 
 Pandas é uma lib que provê estruturas de dados muito úteis para esse tipo de informação que estamos carregando. A estrutura que estaremos usando para representar as infomrações do arquivo train.csv é o **DataFrame**. DataFrame é uma estrutura de duas dimensões com colunas, bem parecido com a imagem mental que temos de uma tabela SQL. Assim que importarmos o .csv , poderemos ver que a estrututura resultante é um DataFrame:
 
-```zsh
+```python
 >>> train = pd.read_csv('train.csv')
 ```
 
 Após ler o arquivo, vamos ver um pequeno resumo do arquivo e de suas colunas:
 
-```zsh
+```python
 >>> train.info()
 <class 'pandas.core.frame.DataFrame'>
 Int64Index: 891 entries, 0 to 890
@@ -76,7 +76,7 @@ memory usage: 90.5+ Kb
 
 Bacana não é? Temos 891 passageiros nesse arquivo, e cada um possui esse tanto de informação. Vamos ver uma primeira linha de exemplo?
 
-```zsh
+```python
 >>> train.head(1)
    PassengerId  Survived  Pclass                     Name   Sex  Age  SibSp  \
 0            1         0       3  Braund, Mr. Owen Harris  male   22      1
@@ -85,8 +85,60 @@ Bacana não é? Temos 891 passageiros nesse arquivo, e cada um possui esse tanto
 0      0  A/5 21171  7.25   NaN        S
 ```
 
-_(Rolou uma quebra de linha aqui, está tudo bem)_
+_(Rolou uma quebra de linha aqui,mas está tudo bem)_
 
 O comando head(n) mostra as primeiras n linhas do DataFrame. No site do Kaggle ele te dá uma legenda para esses nomes de coluna e seus significados. Por exemplo, a coluna Pclass fala qual classe de acomodação o passageiro estava (de primeira até terceira classe). 
 
-O mais interessante é reparar na coluna Survived.
+O mais interessante é reparar na coluna Survived. Como esse é o arquivo para 'treinar' nosso agoritmo, ele possui a informação se o passageiro sobreviveu ou não ao Titanic. No outro arquivo .csv, o test.csv, nós teremos outros passageiros com todas as informações **menos** a informação se sobreviveu ou não. Essa é a informação que nosso algoritmo terá de preencher.
+
+Mas agora que conseguimos ler e entender um pouco do .csv, vamos tratar essas informações para poder 'ensinar' o algoritmo:
+
+### Tratando a informação
+
+Normalmente os algoritmos de Machine Learning trabalham apenas com números. Então é importante que forneçamos informações relevantes e bem tratadas. Uma feature que utilizaremos com certeza é a coluna Age. Vamos ver quais são os valores de Age que temos nessa base de dados:
+
+```python
+>>> train.Age.unique()
+array([ 22.  ,  38.  ,  26.  ,  35.  ,    nan,  54.  ,   2.  ,  27.  ,
+        14.  ,   4.  ,  58.  ,  20.  ,  39.  ,  55.  ,  31.  ,  34.  ,
+        15.  ,  28.  ,   8.  ,  19.  ,  40.  ,  66.  ,  42.  ,  21.  ,
+        18.  ,   3.  ,   7.  ,  49.  ,  29.  ,  65.  ,  28.5 ,   5.  ,
+        11.  ,  45.  ,  17.  ,  32.  ,  16.  ,  25.  ,   0.83,  30.  ,
+        33.  ,  23.  ,  24.  ,  46.  ,  59.  ,  71.  ,  37.  ,  47.  ,
+        14.5 ,  70.5 ,  32.5 ,  12.  ,   9.  ,  36.5 ,  51.  ,  55.5 ,
+        40.5 ,  44.  ,   1.  ,  61.  ,  56.  ,  50.  ,  36.  ,  45.5 ,
+        20.5 ,  62.  ,  41.  ,  52.  ,  63.  ,  23.5 ,   0.92,  43.  ,
+        60.  ,  10.  ,  64.  ,  13.  ,  48.  ,   0.75,  53.  ,  57.  ,
+        80.  ,  70.  ,  24.5 ,   6.  ,   0.67,  30.5 ,   0.42,  34.5 ,  74.  ])
+```
+
+Entendendo esse comando que usei: 
+* Primeiro chamei train.Age que me retorna todos os valores da coluna Age;
+* Depois usei o método unique() que me retorna uma array com todos os valores distintos daquela coluna.
+
+
+
+O importante aqui é que vemos que existem linhas em que a idade é nula. Uma outra forma de saber se temos valores nulos em uma coluna seria:
+
+
+```python
+>>> train.Age.isnull().any()
+True
+```
+_Aqui pegamos todos os valores que são nulos, e depois uso só a função any() para saber se existe qualquer valor._
+
+Pensando em 
+
+
+--- 
+
+### Treinando o algoritmo 
+
+
+--- 
+### Testando o algoritmo
+
+
+--- 
+
+### Enviando para o Kaggle
