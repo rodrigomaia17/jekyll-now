@@ -21,9 +21,9 @@ Vamos começar a escrever o código. É importante que você tenha um ambiente d
 
 Crie uma pasta para nosso projeto, e nela copie os arquivos que voce baixou do site do kaggle. São eles:
 
-* **train.csv**: contém as informações dos passageios **e** a informação se ele sobreviveu ou não. É esse arquivo que iremos alterar, tratar, normalizar as informações a fim de se tornarem as melhores possíveis para o computador "aprender".
+- **train.csv**: contém as informações dos passageios **e** a informação se ele sobreviveu ou não. É esse arquivo que iremos alterar, tratar, normalizar as informações a fim de se tornarem as melhores possíveis para o computador "aprender".
 
-* **test.csv**: contém apenas as informações dos passageios. O seu algoritmo será responsável por dizer se o passageiro sobreviveu ou não. Ao final do processo, esse será o arquivo que iremos submeter para o site do kaggle para que calcule nossa pontuação. 
+- **test.csv**: contém apenas as informações dos passageios. O seu algoritmo será responsável por dizer se o passageiro sobreviveu ou não. Ao final do processo, esse será o arquivo que iremos submeter para o site do kaggle para que calcule nossa pontuação. 
 
 Abra o console na pasta do seu projeto e inicie o interpretador do python:
 
@@ -91,7 +91,26 @@ O comando head(n) mostra as primeiras n linhas do DataFrame. No site do Kaggle e
 
 O mais interessante é reparar na coluna Survived. Como esse é o arquivo para 'treinar' nosso agoritmo, ele possui a informação se o passageiro sobreviveu ou não ao Titanic. No outro arquivo .csv, o test.csv, nós teremos outros passageiros com todas as informações **menos** a informação se sobreviveu ou não. Essa é a informação que nosso algoritmo terá de preencher.
 
-Mas agora que conseguimos ler e entender um pouco do .csv, vamos tratar essas informações para poder 'ensinar' o algoritmo:
+Mas agora que conseguimos ler e entender um pouco do .csv, vamos pensar no dominio do nosso problema e ver o que podemos fazer:
+
+### Desenvolvendo uma possível solução do problema
+
+Aqui é aonde entra um ou dos pilares do machine learning, o __entendimento do domínio__. É muito importante que entendamos o que estamos analizando para informar ao algoritmo o que ele deve aprender para conseguir propor os resultados. Esse exercício que tentaremos fazer agora.  
+
+Pensando em um desastre do tipo __Titanic__ em que temos que priorizar o salvamento de algumas pessoas em detrimento de outras, lembramos rapidamente da máxima __"Mulheres e crianças primeiro"__. Como essa ideia encaixa na nossa base de informação?
+
+A informação do gênero (nesse caso apenas binária) está na coluna "Sex". Vendo a informação das linhas, percebemos que esses valores estão discriminados com o valor 'male' ou 'female' escritos como String. Caso queira conferir, basta usarmos o comando unique:
+
+```python
+>>> train.Sex.unique()
+array(['male', 'female'], dtype=object)
+```  
+
+Isso é uma boa representação para os algoritmos de machine learning? Não. O ideal é usarmos apenas números para representar nossas informações. Então teremos que ter o trabalho de converter esses valores para representações numéricas, iremos cobrir isso na próxima seção.  
+
+A outra informação que queremos saber é se o passageiro é criança ou não. Para isso temos a coluna de idade na nossa base de dados, e ela já é numérica. Trabalho pronto? Não. Dando uma olhada mais aprofundada percebemos que nem todos os passageiros possuem essa informação. Se nesse momento estamos baseando nossa solução apenas nas informações de idade e sexo, é ideal que elas sejam o mais 'normalizadas' possível.  
+
+Vamos então tratar esses dados?
 
 ### Tratando a informação
 
@@ -113,32 +132,79 @@ array([ 22.  ,  38.  ,  26.  ,  35.  ,    nan,  54.  ,   2.  ,  27.  ,
 ```
 
 Entendendo esse comando que usei: 
+
 * Primeiro chamei train.Age que me retorna todos os valores da coluna Age;
 * Depois usei o método unique() que me retorna uma array com todos os valores distintos daquela coluna.
 
 
-
-O importante aqui é que vemos que existem linhas em que a idade é nula. Uma outra forma de saber se temos valores nulos em uma coluna seria:
+O importante aqui é que vermos que existem linhas em que a idade é nula. Uma outra forma de saber se temos valores nulos em uma coluna seria:
 
 
 ```python
 >>> train.Age.isnull().any()
 True
 ```
-_Aqui pegamos todos os valores que são nulos, e depois uso só a função any() para saber se existe qualquer valor._
+_Aqui pegamos todos os valores que são nulos, e depois uso só a função any() para saber se existe qualquer valor assim._
 
-Pensando em 
+Pensando que essa informação nula poderia afetar negativamente o nosso algoritmo, temos que substituir isso por outro valor. A primeira ideia que podemos tentar é trocar todos os nulos pela média da idade geral dos passageiros. Utilizaremos a função **fillna(new_value)**. Essa função substitui todos os valores nulos pelo valor que você passar por parametro.   
 
+```python
+>>age_mean = train.Age.mean()
+>>train.Age = train.Age.fillna(age_mean)
+```
+
+Podemos conferir se temos algum valor nulo agora na coluna Age:
+
+```python
+>> train.Age.isnull().any()
+False
+```
+
+Excelente! Agora vamos trabalhar na informação de sexo do passageiro:
+
+Como falamos antes, essa informação é representada com duas strings: 'female' e 'male'. Precisamos mapear isso para valores inteiros. Podemos mapear os valores 'female' em 1 e os valores 'male' em 2. Para isso escreveremos o seguinte código:
+
+```python
+>>> train.Sex = train.Sex.map({'male': 2, 'female': 1})
+```
+
+Podemos conferir que deu certo observando novamente o primeiro passageiro:
+
+```python
+>>> train.head(1)
+   PassengerId  Survived  Pclass                     Name  Sex  Age  SibSp  \
+0            1         0       3  Braund, Mr. Owen Harris    2   22      1
+
+   Parch     Ticket  Fare Cabin Embarked
+0      0  A/5 21171  7.25   NaN        S
+```
+
+Com as duas features tratadas podemos partir para a parte mais legal:
 
 --- 
 
-### Treinando o algoritmo 
+### Construindo uma solução para o problema 
 
+Agora que já temos o dado tratado, iremos para a parte de:
+
+  1. Escolher um algoritmo para nosso problema
+  2. Treinar esse algoritmo com os dados do train.csv
+  3. Usar o algoritmo para propor uma solução para os dados do test.csv
+
+#### Escolhendo um algoritmo
 
 --- 
+
 ### Testando o algoritmo
 
-
+>>> clf.fit(train[['Age','Sex']],train.Survived)
+>>> test = pd.read_csv('test.csv')
+>>> test.Sex = test.Sex.map({'male':2, 'female':1})
+>>> test.Age = test.Age.fillna(test.Age.mean())
+>>> clf.predict(test[['Age','Sex']])
+>>> test['Survived'] = pd.Series(clf.predict(test[['Age','Sex']]))
+>>> test[['PassengerId','Survived']].to_csv('final.csv', index=False)
 --- 
 
 ### Enviando para o Kaggle
+
