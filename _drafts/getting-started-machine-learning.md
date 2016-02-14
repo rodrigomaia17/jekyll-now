@@ -189,9 +189,36 @@ Agora que já temos o dado tratado, iremos para a parte de:
 
   1. Escolher um algoritmo para nosso problema
   2. Treinar esse algoritmo com os dados do train.csv
+  3. Testar a eficácia do nosso modelo usando os próprios dados do train.csv 
   3. Usar o algoritmo para propor uma solução para os dados do test.csv
 
 #### Escolhendo um algoritmo
+
+Essa decisão de qual algoritmo usar envolve muito mais coisa do que pretendo abordar nesse arquivo de introdução. Pela origem do nosso problema, precisamos de encontrar um algoritmo que seja capaz de fazer uma __classificação__. Isso é, dado as informações do passageiro, o algorimo tem que classificá-lo em "Sobreviveu" ou "Não sobreviveu". Nessa introdução resolvi usar um método de __Decision Tree__ por ser fácil de entender e de visualizar. 
+
+__Decision Tree__ é uma técnica de algoritmos de Machine learning que visa criar árvores de decisão baseados nos valores da suas features. O algoritmo observa os valores e tenta chegar na melhor árvore possível que possa classificar corretamente a informação dada. Por exemplo, uma árvore de decisão para classificar se uma pessoa está no grupo de maior risco de doença cardíaca seria algo como:  
+
+
+![tree-example](/images/machine-learning-tree-example.png)
+_Apenas lembrando que não sei nada de doenças cardíacas e você não deve suspender seu acompanhamento por causa dessa imagem ;)_
+
+{% comment %}
+graph TD
+    A[É fumante?]
+    A-- Sim -->B
+    B[Tem menos que 30 anos?]
+    B-- Sim -->X1
+    B-- Não -->Z1       
+    A-- Não -->E
+    E[Se alimenta bem?]
+    E-- Sim -->X
+    E-- Não -->Z
+    X[Menor Risco]
+    Z[Maior Risco]
+    X1[Menor Risco]
+    Z1[Maior Risco] 
+{% endcomment %}
+
 
 --- 
 
