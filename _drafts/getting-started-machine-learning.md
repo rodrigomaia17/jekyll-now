@@ -13,7 +13,17 @@ Uns conceitos básicos para alinharmos o vocábulário:
 
 **Machine Learning:** É um método de análise de dados que te permite 'ensinar' o computador como tomar uma decisão sem ter que programá-lo explicitamente para tal. Os algoritmos de machine learning são divididos em duas categorias: _supervised learning_ e _unsupervised learning_ .
 
-**Supervised Learning** É a categoria de algoritmos que usam uma base de dados de treino já preenchida com o valor que queremos descobrir. Após aprender com essa base de dados o algoritmo é usado então para prever valores em uma outra base de dados. Exemplos dessa categoria  são os algoritmos de  **Classificação** e de **Regressão**. Por exemplo: Para descobrir se um produto X pertence a uma categoria Y, 'ensinamos usamos uma base de dados já preenchida com o valor de categoria
+**Supervised Learning** É a categoria de algoritmos que usam uma base de dados de treino já preenchida com o valor que queremos descobrir. Após aprender com essa base de dados o algoritmo é usado então para prever valores em uma outra base de dados. Exemplos dessa categoria  são os algoritmos de  **Classificação** e de **Regressão**. Por exemplo: Para descobrir se um produto X pertence a uma categoria Y, 'ensinamos' o algoritmo uma base de dados de produtos já preenchida com o valor de categoria. Após o algorimo 'aprender' essa base, podemos aplicá-lo em  uma base de dados que não possui essa categoria para que ele calcule essa informação.
+
+
+**Unsupervised Learning** O uso de algoritmos de unsupervised learning não envolve uma base de dados prévia para que o algoritmo aprenda. O objetivo desses algoritmos é inferir padrões e distribuições comuns em uma certa base de dados. Por exemplo, podemos usar um algoritmo de unsupervised learning para distinguir imagens de cadeiras de uma outra base de imagens de fotos de paisagens, mesmo sem o algoritmo saber necessariamente o que é uma cadeira e o que é uma imagem.    
+Imaginem um banco de dados em que temos várias imagens de rostos humanos e imagens de paisagens. Após algum tempo mostrando para o computador o que é uma imagem de um rosto e uma imagem de paisagem, ele será capaz de ver uma imagem diferente das que estão no banco e nos dizer se é de um rosto ou nãaz de ver uma imagem diferente das que estão no banco e nos dizer se é de um rosto ou não. Ele 'aprendeu por exemplos' como resolver essa dúvida. Isso é **supervised learning**.
+
+Agora imaginem se temos essas imagens de rostos humanos e de paisagens todos misturados e sem uma categorização prévia. Após mostrar várias dessas imagens a um algoritmo de **unsupervised learning** ele aprenderá os padrões de diferença média entre ambos, e poderá inferir que provavelmente uma foto sua de perfil faz mais parte do grupo das foto de rosto e não das de paisagem, mesmo sem saber exatamente o que é cada uma dessas coisas. Ele aprendeu a separar aquelas imagens por inferência de quanto um rosto parece com o outro mas não parece com uma montanha no horizonte.
+
+**Features** Features são características mensuráveis de algo que você e seu algoritmo estão observando. Caso estejamos usando machine learning para indentificar o risco cardíaco de pessoas, o tamanho e peso das pessoas podem ser features que iremos querer levar em conta. Caso a intenção é descobrir o nível de popularidade de um indivíduo, podemos observar o número de amigos e a relevância desses seus amigos. 
+
+Para facilitar a visualização de nossa base de dados, muitas vezes usarei a nomenclatura de 'colunas' quando estiver me referindo às features do nosso exemplo.
 
 ---
 
