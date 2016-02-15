@@ -11,7 +11,9 @@ Olá! Nesse post vamos explicar o básico de conceitos de machine learning para 
 
 Uns conceitos básicos para alinharmos o vocábulário:
 
-**Machine Learning:** É um método de análise de dados que te permite 'ensinar' o computador
+**Machine Learning:** É um método de análise de dados que te permite 'ensinar' o computador como tomar uma decisão sem ter que programá-lo explicitamente para tal. Os algoritmos de machine learning são divididos em duas categorias: _supervised learning_ e _unsupervised learning_ .
+
+**Supervised Learning** É a categoria de algoritmos que usam uma base de dados de treino já preenchida com o valor que queremos descobrir. Após aprender com essa base de dados o algoritmo é usado então para prever valores em uma outra base de dados. Exemplos dessa categoria  são os algoritmos de  **Classificação** e de **Regressão**. Por exemplo: Para descobrir se um produto X pertence a uma categoria Y, 'ensinamos usamos uma base de dados já preenchida com o valor de categoria
 
 ---
 
@@ -189,8 +191,9 @@ Agora que já temos o dado tratado, iremos para a parte de:
 
   1. Escolher um algoritmo para nosso problema
   2. Treinar esse algoritmo com os dados do train.csv
-  3. Testar a eficácia do nosso modelo usando os próprios dados do train.csv 
-  3. Usar o algoritmo para propor uma solução para os dados do test.csv
+  3. Usar o algoritmo para propor uma solução para os dados do test.
+
+
 
 #### Escolhendo um algoritmo
 
@@ -219,19 +222,137 @@ graph TD
     Z1[Maior Risco] 
 {% endcomment %}
 
+A ideia é que o algoritmo seja possível de aprender com a nossa base já classificada ( train.csv )  e gerar uma árvore assim para ser usada depois em uma base não classificada ( test.csv ).
+
+A implementação de Decision Tree que usaremos nesse exemplo é a __Decision Tree Classifier__ que fica no pacote __sklearn.tree__ . Para importá-lo e instanciá-lo:
+
+```python
+>>> from sklearn.tree import DecisionTreeClassifier
+>>> clf = DecisionTreeClassifier()
+```
+
+Agora vamos aprender como 'treinar' nosso algoritmo e como fazer para usá-lo na nossa outra base de dados (test.csv).
 
 --- 
 
 ### Testando o algoritmo
 
->>> clf.fit(train[['Age','Sex']],train.Survived)
+Os algoritmos de machine learning do pacote sklearn seguem uma interface padrão para utilizarmos. Utilizaremos aqui os métodos __fit__ e __predict__. Vamos entender o porquê:
+
+O método __fit__ é o método que 'ensina' o nosso algoritmo sobre nossa base. Até agora nós tratamos os dados do arquivo train.csv para que eles possam ser melhor 'aprendidos'pelo nosso algoritmo. O método fit essencialmente recebe dois parametros: um array com as features que ele irá aprender (no nosso caso as colunas 'Age' e 'Sex' do arquivo train.csv) e um array com os resultados já classificados (no nosso caso a coluna 'Survived' do mesmo arquivo). __Ele tentará aprender com as informações do primeiro parâmetro como prever as informações do segundo parâmetro.__
+
+Como já instanciamos o algoritmo DecisionTreeClassifier na variável __clf__, nosso código para usar o método fit será:
+
+```python
+>>> features = train[['Age','Sex']]
+>>> target = train.Survived
+>>> clf.fit(features,target)
+```
+_Perceba que como train é um DataFrame Pandas, podemos acessar as colunas da forma dataFrame.Coluna ou dataFrame['Coluna']. Mas quando queremos selecionar mais de uma coluna temos que utilizar a forma dataFrame[['Coluna1','Coluna2']]_
+
+Para essa base do titanic, esse processo do fit deve ser praticamente instantâneo. Mas fique avisado que em bases maiores e/ou algoritmos mais complexos isso poderá levar bastante tempo. 
+
+
+Após esse processo, o algoritmo teoricamente já 'aprendeu' como prever a coluna que você pediu. Não cobrirei aqui, mas com um pouco mais de código vocês podem ter uma representação gráfica de como sua árvore está. Tudo isso está na [Documentação do sklearn](http://scikit-learn.org/stable/modules/generated/sklearn.tree.export_graphviz.html#sklearn.tree.export_graphviz)
+
+Agora o algoritmo está pronto para prever as informações do arquivo test.csv 
+
+
+---
+
+### Prevendo as informações dos passageiros
+
+Agora que nosso algoritmo está pronto, precisamos primeiro carregar o arquivo test.csv. Como ele está no mesmo formato que o train.csv (exceto por não ter a coluna Survived), temos que aplicar nele o mesmo tratamento de dados que fizemos no arquivo test.csv. Reuni todos os comandos e ficou assim:
+
+```python
 >>> test = pd.read_csv('test.csv')
 >>> test.Sex = test.Sex.map({'male':2, 'female':1})
 >>> test.Age = test.Age.fillna(test.Age.mean())
->>> clf.predict(test[['Age','Sex']])
->>> test['Survived'] = pd.Series(clf.predict(test[['Age','Sex']]))
->>> test[['PassengerId','Survived']].to_csv('final.csv', index=False)
+```
+
+Agora iremos usar o outro método que mencionei do nosso algoritmo, o __predict__ . Esse método é o que realmente aplica tudo que o algoritmo aprendeu na base anterior, nessa nova base. Ele recebe apenas um parâmetro: As features que ele tem que analizar (no nosso caso, as mesmas colunas 'Age' e 'Sex'. Mas agora do arquivo de testes, o test.csv), para realizar a previsão que ele aprendeu anteriormente.
+
+Ficará assim:
+
+```python
+>>> result =  clf.predict(test[['Age','Sex']])
+```
+
+Armazenamos o resultado na variável `result`. Caso você a imprima, perceberá que ela contém apenas as informações de 1 ou 0 (Indicando se o passageiro sobreviveu ou não). 
+
+```python
+>>> result
+array([0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+       0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0,
+       0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0,
+       1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0,
+       1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1,
+       0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0,
+       0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0,
+       1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+       0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
+       0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0,
+       0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+       0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+       0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+       1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1,
+       0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0,
+       1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+       1, 0, 0, 0])
+```
+
+Para inserir uma nova coluna no DataFrame test com essa informação, podemos usar o seguinte código:
+
+```python
+test['Survived'] = pd.Series(result)
+```
+>_Reparem que podemos substituir colunas usando a sintaxe dataFrame.Coluna = novaColuna, mas não podemos **criar** novas colunas assim. Para isso temos que usar a sintaxe dataFrame['ColunaNova'] = novaColuna_
+
+Exiba os primeiros passageiros com `test.head(5)` e verá que temos uma nova coluna com a informação se o passageiro sobreviveu ou não. 
+
+Mas será que o nosso algoritmo foi eficaz? Vamos enviar essa resposta para o kaggle e ver a nossa pontuação.   
+
+
 --- 
 
-### Enviando para o Kaggle
+### Enviando para o Kaggle e conferindo nossa pontuação
 
+Conferindo a documentação no kaggle vemos que ele pede que as submissões sejam feitas com apenas duas colunas, o PassengerId, e a informação se sobreviveu ou não.
+
+Para criar essa estrutura vamos selecionar essas informações do nosso dataframe:
+
+```python
+>>> submission = test[['PassengerId','Survived']]
+```
+
+E para gerar um csv dessa estrutura basta usar:
+
+```python
+>>> submission.to_csv('submission.csv', index=False)
+```
+
+Agora deveremos ter o arquivo submission.csv na pasta do projeto, pronto para ser enviado para o site. 
+
+Abra o site, vá na [url de submissão](https://www.kaggle.com/c/titanic/submissions/attach) e envie o seu arquivo .csv, em segundos o kaggle deve calcular sua pontuação e te dar o resultado. Para esse método conseguimos a seguinte pontuação:
+
+![submission](/images/machine-learning-titanic-submission.png)
+
+Obtivemos uma pontuação de 0.73684.Ou seja, conseguimos acertar 73% das previsões se um passageiro sobreviveu ou não. Isso analizando apenas duas features com um algoritmo sem nenhuma customização. Bacana, não? 
+
+---
+
+## Conclusão
+
+Nessa introdução passamos por:
+
+  1. Entendemos alguns conceitos básicos de Machine Learning.
+  2. Aprendemos sobre o Kaggle e como entrar em suas competições.
+  3. Aprendemos sobre a biblioteca Pandas e como usá-la para ler e manipular um arquivo csv.
+  4. Utilizamos scikit e Decision Trees para aplicar em uma base.
+  5. Enviamos o resultado para o kaggle e obtivemos nossa pontuação. 
+
+Num próximo post podemos ver como usar algoritmos mais apropriados para esse problema, assim como como testar a eficácia do nosso modelo sem precisar enviar toda vez para o Kaggle. 
+
+Valeu! (:  
