@@ -5,7 +5,7 @@ keywords: "python, tutorial, machine-learning, pandas, kaggle"
 description: Um pequeno guia sobre machine learning utilizando python
 ---
 
-Olá! Nesse post vamos explicar o básico de conceitos de machine learning para iniciantes (como eu), além de um passo a passo de como usar python em um problema bem legal proposto pelo kaggle.
+Olá! Nesse post vamos explicar o básico de conceitos de machine learning para iniciantes, além de um passo a passo de como usar python em um problema bem legal proposto pelo kaggle.
 
 Em suma, irei falar sobre alguns conceitos básicos de machine learning e depois fazer passo a passo uma resolução de uma competição kaggle. O resultado no final é um algoritmo capaz de ler dados de um passageiro do Titanic e prever se ele sobreviveu ou não ao desastre. 
 
