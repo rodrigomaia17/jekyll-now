@@ -27,7 +27,8 @@ url: http://rodrigomaia.me
 baseurl: ""
 # baseurl: ""
 
-google_analytics: UA-60989222-1
+#google_analytics: UA-60989222-1
+google_analytics: UA-60989222-2
 repo: http://github.com/rodrigomaia17
 disqus_shortname: "rodrigomaiablog"
 disqus_site_shortname: "rodrigomaiablog"
