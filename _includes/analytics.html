@@ -10,5 +10,8 @@
 		  'page': '{{ page.url }}',
 		  'title': '{{ page.title | replace: "'", "\\'" }}'
 		});
+
+    setTimeout("ga('send','event','adjusted bounce rate','page visit 10 seconds or more')",10000);
+
 	</script>
 	<!-- End Google Analytics -->
