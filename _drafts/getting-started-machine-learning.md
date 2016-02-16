@@ -5,7 +5,10 @@ keywords: "python, tutorial, machine-learning, pandas, kaggle"
 description: Um pequeno guia sobre machine learning utilizando python
 ---
 
-Olá! Nesse post vamos explicar o básico de conceitos de machine learning para iniciantes (como eu), além de um passo a passo de como usar python em um problema bem legal proposto pelo kaggle, seu próximo site mais acessado ;).
+Olá! Nesse post vamos explicar o básico de conceitos de machine learning para iniciantes (como eu), além de um passo a passo de como usar python em um problema bem legal proposto pelo kaggle.
+
+Em suma, irei falar sobre alguns conceitos básicos de machine learning e depois fazer passo a passo uma resolução de uma competição kaggle. O resultado no final é um algoritmo capaz de ler dados de um passageiro do Titanic e prever se ele sobreviveu ou não ao desastre. 
+
 
 ### Conceitos Básicos
 
@@ -17,7 +20,8 @@ Uns conceitos básicos para alinharmos o vocábulário:
 
 
 **Unsupervised Learning** O uso de algoritmos de unsupervised learning não envolve uma base de dados prévia para que o algoritmo aprenda. O objetivo desses algoritmos é inferir padrões e distribuições comuns em uma certa base de dados. Por exemplo, podemos usar um algoritmo de unsupervised learning para distinguir imagens de cadeiras de uma outra base de imagens de fotos de paisagens, mesmo sem o algoritmo saber necessariamente o que é uma cadeira e o que é uma imagem.    
-Imaginem um banco de dados em que temos várias imagens de rostos humanos e imagens de paisagens. Após algum tempo mostrando para o computador o que é uma imagem de um rosto e uma imagem de paisagem, ele será capaz de ver uma imagem diferente das que estão no banco e nos dizer se é de um rosto ou nãaz de ver uma imagem diferente das que estão no banco e nos dizer se é de um rosto ou não. Ele 'aprendeu por exemplos' como resolver essa dúvida. Isso é **supervised learning**.
+
+Imaginem um banco de dados em que temos várias imagens de rostos humanos e imagens de paisagens. Após algum tempo mostrando para o computador o que é uma imagem de um rosto e uma imagem de paisagem, ele será capaz de ver uma imagem diferente das que estão no banco e nos dizer se é de um rosto ou não. Ele 'aprendeu por exemplos' como resolver esse problema. Isso é **supervised learning**.
 
 Agora imaginem se temos essas imagens de rostos humanos e de paisagens todos misturados e sem uma categorização prévia. Após mostrar várias dessas imagens a um algoritmo de **unsupervised learning** ele aprenderá os padrões de diferença média entre ambos, e poderá inferir que provavelmente uma foto sua de perfil faz mais parte do grupo das foto de rosto e não das de paisagem, mesmo sem saber exatamente o que é cada uma dessas coisas. Ele aprendeu a separar aquelas imagens por inferência de quanto um rosto parece com o outro mas não parece com uma montanha no horizonte.
 
@@ -27,9 +31,28 @@ Para facilitar a visualização de nossa base de dados, muitas vezes usarei a no
 
 ---
 
+### O Kaggle
+
+![Kaggle](/images/kaggle.jpg)
+
+O Kaggle é um site de competições de machine learning. Ele é responsavel por hospedar problemas e por analizar e rankear as respostas dos competidores. Existem competições que são apenas para fins de ensino, enquanto outras oferecem prêmios para quem oferece as melhores respostas.
+
+Para iniciarmos, é preciso que você crie uma conta no Kaggle e depois entre na competição [Titanic: Machine Learning from Disaster](https://www.kaggle.com/c/titanic). Iremos explicar em seguida o funcionamento dessa competição. 
+
+---
+
+### Titanic: Machine Learning from Disaster
+
+O problema consiste em: Dado uma base de dados teste com dados de Passageiros do Titanic e a informação se sobreviveram ou não, somos responsáveis por construir um algoritmo responsável por dizer se qualquer outro passageiro também sobreviveu ou não.   
+Para baixar os arquivos da competição vá na [Página de arquivos](https://www.kaggle.com/c/titanic/data) do site e baixe os arquivos **train.csv** e **test.csv**:
+
+Agora estamos prontos para ir para o código.
+
+---
+
 ### Show me the code!
 
-Vamos começar a escrever o código. É importante que você tenha um ambiente de python preparado e redondinho. Recomendo utilizar a distribuição _Anaconda_  pois já vem com tudo que precisaremos em termos de bibliotecas de data science.
+Vamos começar a escrever o código. É importante que você tenha um ambiente de python preparado e redondinho. Recomendo utilizar a distribuição _Anaconda_  pois já vem com tudo que precisaremos em termos de bibliotecas de data science. Caso não tenha instalado, recomendo fazer o download do [site oficial](https://www.continuum.io/downloads). 
 
 Crie uma pasta para nosso projeto, e nela copie os arquivos que voce baixou do site do kaggle. São eles:
 
@@ -37,7 +60,7 @@ Crie uma pasta para nosso projeto, e nela copie os arquivos que voce baixou do s
 
 - **test.csv**: contém apenas as informações dos passageios. O seu algoritmo será responsável por dizer se o passageiro sobreviveu ou não. Ao final do processo, esse será o arquivo que iremos submeter para o site do kaggle para que calcule nossa pontuação. 
 
-Abra o console na pasta do seu projeto e inicie o interpretador do python:
+Abra o console (ou prompt de comando caso esteja no Windows) na pasta do seu projeto e inicie o interpretador do python:
 
 ```python
 ~/projects/kaggle-titanic  ᐅ python3
@@ -46,6 +69,8 @@ Python 3.5.0 |Anaconda 2.4.0 (x86_64)| (default, Oct 20 2015, 14:39:26)
 Type "help", "copyright", "credits" or "license" for more information.
 >>
 ```
+
+Esse é o interpreador do python. Qualquer comando que você executar irá mostrar o seu resultado logo abaixo.
 
 Sua versão pode ser diferente da minha, as bibliotecas que usarei são bastante consistentes e provavelmente não terá discrepâncias.
 
@@ -120,7 +145,7 @@ array(['male', 'female'], dtype=object)
 
 Isso é uma boa representação para os algoritmos de machine learning? Não. O ideal é usarmos apenas números para representar nossas informações. Então teremos que ter o trabalho de converter esses valores para representações numéricas, iremos cobrir isso na próxima seção.  
 
-A outra informação que queremos saber é se o passageiro é criança ou não. Para isso temos a coluna de idade na nossa base de dados, e ela já é numérica. Trabalho pronto? Não. Dando uma olhada mais aprofundada percebemos que nem todos os passageiros possuem essa informação. Se nesse momento estamos baseando nossa solução apenas nas informações de idade e sexo, é ideal que elas sejam o mais 'normalizadas' possível.  
+A outra informação que queremos levar em conta é a idade do Passageiro. Para isso temos a coluna de idade na nossa base de dados, e ela já é numérica. Trabalho pronto? Não. Dando uma olhada mais aprofundada percebemos que nem todos os passageiros possuem essa informação. Se nesse momento estamos baseando nossa solução apenas nas informações de idade e sexo, é ideal que elas sejam o mais 'normalizadas' possível.  
 
 Vamos então tratar esses dados?
 
@@ -249,7 +274,7 @@ Agora vamos aprender como 'treinar' nosso algoritmo e como fazer para usá-lo na
 
 Os algoritmos de machine learning do pacote sklearn seguem uma interface padrão para utilizarmos. Utilizaremos aqui os métodos __fit__ e __predict__. Vamos entender o porquê:
 
-O método __fit__ é o método que 'ensina' o nosso algoritmo sobre nossa base. Até agora nós tratamos os dados do arquivo train.csv para que eles possam ser melhor 'aprendidos'pelo nosso algoritmo. O método fit essencialmente recebe dois parametros: um array com as features que ele irá aprender (no nosso caso as colunas 'Age' e 'Sex' do arquivo train.csv) e um array com os resultados já classificados (no nosso caso a coluna 'Survived' do mesmo arquivo). __Ele tentará aprender com as informações do primeiro parâmetro como prever as informações do segundo parâmetro.__
+O método __fit__ é o método que 'ensina' o nosso algoritmo sobre nossa base. Até agora nós tratamos os dados do arquivo train.csv para que eles possam ser melhor 'aprendidos' pelo nosso algoritmo. O método fit essencialmente recebe dois parametros: um array com as features que ele irá aprender (no nosso caso as colunas 'Age' e 'Sex' do arquivo train.csv) e um array com os resultados já classificados (no nosso caso a coluna 'Survived' do mesmo arquivo). __Ele tentará aprender com as informações do primeiro parâmetro como prever as informações do segundo parâmetro.__
 
 Como já instanciamos o algoritmo DecisionTreeClassifier na variável __clf__, nosso código para usar o método fit será:
 
@@ -351,6 +376,8 @@ Abra o site, vá na [url de submissão](https://www.kaggle.com/c/titanic/submiss
 
 Obtivemos uma pontuação de 0.73684.Ou seja, conseguimos acertar 73% das previsões se um passageiro sobreviveu ou não. Isso analizando apenas duas features com um algoritmo sem nenhuma customização. Bacana, não? 
 
+Com pouco código fomos capazes de acertar grande parte dos passageiros da planilha de testes. É claro que se olhar o leaderboard, essa solucão ficou bem abaixo das primeiras (e acima de várias outras submissões), mas com pouquíssimo código já conseguimos ter ideia de como funciona o básico de Machine Learning. 
+
 ---
 
 ## Conclusão
@@ -363,6 +390,6 @@ Nessa introdução passamos por:
   4. Utilizamos scikit e Decision Trees para aplicar em uma base.
   5. Enviamos o resultado para o kaggle e obtivemos nossa pontuação. 
 
-Num próximo post podemos ver como usar algoritmos mais apropriados para esse problema, assim como como testar a eficácia do nosso modelo sem precisar enviar toda vez para o Kaggle. 
+Num possível próximo post podemos ver como usar algoritmos mais apropriados para esse problema, assim como como testar a eficácia do nosso modelo sem precisar enviar toda vez para o Kaggle. 
 
 Valeu! (:  
