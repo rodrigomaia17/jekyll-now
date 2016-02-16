@@ -82,7 +82,7 @@ Primeiro vamos carregar o arquivo train.csv. Para isso usaremos uma lib muito bo
 >>> import pandas as pd
 ```
 
-Pandas é uma lib que provê estruturas de dados muito úteis para esse tipo de informação que estamos carregando. A estrutura que estaremos usando para representar as infomrações do arquivo train.csv é o **DataFrame**. DataFrame é uma estrutura de duas dimensões com colunas, bem parecido com a imagem mental que temos de uma tabela SQL. Assim que importarmos o .csv , poderemos ver que a estrututura resultante é um DataFrame:
+Pandas é uma lib que provê estruturas de dados muito úteis para esse tipo de informação que estamos carregando. A estrutura que estaremos usando para representar as informações do arquivo train.csv é o **DataFrame**. DataFrame é uma estrutura de duas dimensões com colunas, bem parecido com a imagem mental que temos de uma tabela SQL. Assim que importarmos o .csv , poderemos ver que a estrututura resultante é um DataFrame:
 
 ```python
 >>> train = pd.read_csv('train.csv')
