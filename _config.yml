@@ -34,7 +34,7 @@ baseurl: ""
 
 #google_analytics: UA-60989222-1
 google_analytics: UA-60989222-2
-repo: http://github.com/rodrigomaia17
+repo: http://github.com/rodrimaia
 disqus_shortname: "rodrigomaiablog"
 disqus_site_shortname: "rodrigomaiablog"
 
@@ -46,10 +46,10 @@ author:
   thumb     : /images/author.jpeg
   email     : rodrigo.maia.pereira@gmail.com
   url       : http://rodrigomaia.me
-  github    : http://github.com/rodrigomaia17
+  github    : http://github.com/rodrimaia
   twitter   : http://twitter.com/rodrigomaia17
   facebook  : http://facebook.com/rodrigomaia17
-  linkedin  : http://linkedin.com/in/rodrigomaia17
+  linkedin  : http://linkedin.com/in/rodrimaia
   resume    : /resume.pdf
 
 # navbar pages
